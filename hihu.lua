@@ -2,7 +2,7 @@
 --  ULTRA FISH FARMER - FINAL BRUTAL EDITION
 --  Rapid Fire Multi-Bait (5 UID per burst, parallel chunks)
 --  Token Bucket + Adaptive Ping Guard + Smart Sell
---  + AUTO FEEDER 5M + FOOD TRAY 1M + STORM HORN 3M
+--  + AUTO FEEDER 5M (6 titik x3) + FOOD TRAY 1M + STORM HORN 3M
 -- ============================================================
 
 local Players           = game:GetService("Players")
@@ -188,15 +188,21 @@ local function buildBaitChunks(baits)
 end
 
 -- ============================================================
---  AUTO PLACE FEEDER (5 MENIT LOOP)
+--  AUTO PLACE FEEDER (5 MENIT LOOP) - 6 TITIK x3
 -- ============================================================
+local FEEDER_POSITIONS = {
+    Vector3.new(120.86299896240234, -0.012000083923339844,  41),
+    Vector3.new(30.862998962402344, -0.012000083923339844,  41),
+    Vector3.new(75.86299896240234,  -0.012000083923339844,  41),
+    Vector3.new(30.862998962402344, -0.012000083923339844, -41),
+    Vector3.new(75.86299896240234,  -0.012000083923339844, -41),
+    Vector3.new(120.86299896240234, -0.012000083923339844, -41),
+}
+
 local function startAutoFeederLoop()
     task.spawn(function()
         while State.feederOn do
-            for _, pos in ipairs({
-                Vector3.new(75.86299896240234, -0.012000083923339844, 41),
-                Vector3.new(75.86299896240234, -0.012000083923339844, -41),
-            }) do
+            for _, pos in ipairs(FEEDER_POSITIONS) do
                 for i = 1, 3 do
                     if not State.feederOn then break end
                     pcall(function()
@@ -204,6 +210,7 @@ local function startAutoFeederLoop()
                     end)
                     task.wait(0.25)
                 end
+                if not State.feederOn then break end
             end
             if State.feederOn then task.wait(300) end
         end
