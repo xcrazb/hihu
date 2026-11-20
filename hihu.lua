@@ -206,7 +206,7 @@ local function startAutoFeederLoop()
                 for i = 1, 3 do
                     if not State.feederOn then break end
                     pcall(function()
-                        placeBuildingRemote:InvokeServer("booster", "GodlyAutoFeeder", pos)
+                        placeBuildingRemote:InvokeServer("booster", "ExtremeAutoFeeder", pos)
                     end)
                     task.wait(0.25)
                 end
